@@ -4,35 +4,53 @@ local lspconfig = require('lspconfig')
 
 mason.setup()
 mason_lspconfig.setup({
-    ensure_installed = { 'gopls', 'lua_ls' },
-})
-
--- gopls configuration inspired by minimal-vim
-lspconfig.gopls.setup({
-    settings = {
-        gopls = {
-            gofumpt = true,
-            analyses = {
-                unusedparams = true,
-                unreachable = true,
-            },
-            usePlaceholders = true,
-            staticcheck = true,
-        },
+    ensure_installed = {
+        'bashls',
+        'gopls',
+        'lua_ls',
+        'nil_ls',
+        'pyright',
+        'terraformls',
+        'tsserver',
     },
 })
 
--- lua language server
-lspconfig.lua_ls.setup({
-    settings = {
-        Lua = {
-            diagnostics = { globals = { 'vim' } },
-            workspace = {
-                library = vim.api.nvim_get_runtime_file('', true),
-                checkThirdParty = false,
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+mason_lspconfig.setup_handlers({
+    function(server)
+        lspconfig[server].setup({ capabilities = capabilities })
+    end,
+    gopls = function()
+        lspconfig.gopls.setup({
+            capabilities = capabilities,
+            settings = {
+                gopls = {
+                    gofumpt = true,
+                    analyses = {
+                        unusedparams = true,
+                        unreachable = true,
+                    },
+                    usePlaceholders = true,
+                    staticcheck = true,
+                },
             },
-        },
-    },
+        })
+    end,
+    lua_ls = function()
+        lspconfig.lua_ls.setup({
+            capabilities = capabilities,
+            settings = {
+                Lua = {
+                    diagnostics = { globals = { 'vim' } },
+                    workspace = {
+                        library = vim.api.nvim_get_runtime_file('', true),
+                        checkThirdParty = false,
+                    },
+                },
+            },
+        })
+    end,
 })
 
 vim.diagnostic.config({
