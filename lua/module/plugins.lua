@@ -39,6 +39,7 @@ require("lazy").setup({
   },
   {
     "nvim-treesitter/nvim-treesitter",
+    build = ":TSUpdate",
     config = function()
       require("module.plugins.treesitter")
     end,
@@ -58,6 +59,7 @@ require("lazy").setup({
       branch = "v2.x",
       dependencies = {
         { "neovim/nvim-lspconfig" },
+
       {
         "williamboman/mason.nvim",
         build = function()
