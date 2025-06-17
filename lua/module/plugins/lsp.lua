@@ -15,6 +15,7 @@ lsp.ensure_installed({
   'gopls', -- go
   'terraformls', -- terraform
   'elixirls', -- elixir
+  'typescript-language-server', -- typescript
 })
 
 require'lspconfig'.marksman.setup{}

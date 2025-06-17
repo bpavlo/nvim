@@ -1,94 +1,76 @@
--- install packer if not installed on this machine
-local ensure_packer = function()
-	local fn = vim.fn
-	local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-	if fn.empty(fn.glob(install_path)) > 0 then
-		fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path })
-		vim.cmd([[packadd packer.nvim]])
-		return true
-	end
-	return false
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable",
+    lazypath,
+  })
 end
+vim.opt.rtp:prepend(lazypath)
 
--- first time startup
-local packer_bootstrap = ensure_packer()
-
-return require("packer").startup(function(use)
-	use("wbthomason/packer.nvim")
-
-  use({"norcalli/nvim-colorizer.lua",
+require("lazy").setup({
+  {
+    "norcalli/nvim-colorizer.lua",
     config = function()
       require("module.plugins.colorizer")
     end,
-  })
-  use({
+  },
+  {
     "craftzdog/solarized-osaka.nvim",
     config = function()
       require("module.plugins.solarized-osaka")
     end,
-  })
-
---  use({
---    "jameswalls/naysayer.nvim",
---    config = function()
---      require("module.plugins.naysayer")
---    end,
---  })
-
-	use({
-		"nvim-telescope/telescope.nvim",
-		requires = { { "nvim-lua/plenary.nvim" } },
-		config = function()
-			require("module.plugins.telescope")
-		end,
-	})
-
-	use({
-		"nvim-treesitter/nvim-treesitter",
-		run = ":TSupdate",
-		config = function()
-			require("module.plugins.treesitter")
-		end,
-	})
-
-	use("mbbill/undotree")
-
-	use("tpope/vim-fugitive")
-
-  use("folke/which-key.nvim")
---	use("mickael-menu/zk-nvim")
-
-  use {
-	  "windwp/nvim-autopairs",
-    config = function() require("nvim-autopairs").setup {} end
-  }
-
-	use({
-		"VonHeikemen/lsp-zero.nvim",
-		branch = "v2.x",
-		requires = {
-			-- LSP Support
-			{ "neovim/nvim-lspconfig" }, -- Required
-			{ -- Optional
-				"williamboman/mason.nvim",
-				run = function()
-					pcall(vim.cmd, "MasonUpdate")
-				end,
-			},
-			{ "williamboman/mason-lspconfig.nvim" }, -- Optional
-
-			-- Autocompletion
-			{ "hrsh7th/nvim-cmp" }, -- Required
-			{ "hrsh7th/cmp-nvim-lsp" }, -- Required
-			{ "L3MON4D3/LuaSnip" }, -- Required
-		},
-		config = function()
-			require("module.plugins.lsp")
-		end,
-	})
-
-	-- automatically set up the configuration after cloning packer.nvim
-	if packer_bootstrap then
-		require("packer").sync()
-	end
-end)
+  },
+  -- {
+  --   "jameswalls/naysayer.nvim",
+  --   config = function()
+  --     require("module.plugins.naysayer")
+  --   end,
+  -- },
+  {
+    "nvim-telescope/telescope.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+      require("module.plugins.telescope")
+    end,
+  },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    config = function()
+      require("module.plugins.treesitter")
+    end,
+  },
+  "mbbill/undotree",
+  "tpope/vim-fugitive",
+  "folke/which-key.nvim",
+  -- "mickael-menu/zk-nvim",
+    {
+      "windwp/nvim-autopairs",
+      config = function()
+        require("nvim-autopairs").setup {}
+      end,
+    },
+    {
+      "VonHeikemen/lsp-zero.nvim",
+      branch = "v2.x",
+      dependencies = {
+        { "neovim/nvim-lspconfig" },
+      {
+        "williamboman/mason.nvim",
+        build = function()
+          pcall(vim.cmd, "MasonUpdate")
+        end,
+      },
+      { "williamboman/mason-lspconfig.nvim" },
+      { "hrsh7th/nvim-cmp" },
+      { "hrsh7th/cmp-nvim-lsp" },
+      { "L3MON4D3/LuaSnip" },
+    },
+    config = function()
+      require("module.plugins.lsp")
+    end,
+  },
+})
