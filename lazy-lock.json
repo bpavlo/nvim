@@ -2,7 +2,6 @@
   "LuaSnip": { "branch": "master", "commit": "fb525166ccc30296fb3457441eb979113de46b00" },
   "cmp-nvim-lsp": { "branch": "main", "commit": "a8912b88ce488f411177fc8aed358b04dc246d7b" },
   "lazy.nvim": { "branch": "main", "commit": "6c3bda4aca61a13a9c63f1c1d1b16b9d3be90d7a" },
-  "lsp-zero.nvim": { "branch": "v2.x", "commit": "320d5913bc5a0b0f15537e32777331d2323ab7f8" },
   "mason-lspconfig.nvim": { "branch": "main", "commit": "bb30c422329e86fcaa4e4920181f6715d634e516" },
   "mason.nvim": { "branch": "main", "commit": "8024d64e1330b86044fed4c8494ef3dcd483a67c" },
   "nvim-autopairs": { "branch": "master", "commit": "2647cce4cb64fb35c212146663384e05ae126bdf" },
