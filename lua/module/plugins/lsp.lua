@@ -1,60 +1,84 @@
-local lsp = require("lsp-zero").preset({})
-lsp.preset("recommended")
+local mason = require('mason')
+local mason_lspconfig = require('mason-lspconfig')
+local lspconfig = require('lspconfig')
 
-lsp.ensure_installed({
-  'bashls', -- bash
-  'clangd', -- c, c++
-  'cssls', -- css
-  'eslint', -- js
-  'html', -- html
-  'jdtls', -- java
-  'marksman', -- markdown
-  'nil_ls', -- nix
-  'rust_analyzer', -- rust
-  'lua_ls',
-  'gopls', -- go
-  'terraformls', -- terraform
-  'elixirls', -- elixir
+mason.setup()
+mason_lspconfig.setup({
+    ensure_installed = {
+        'bashls',
+        'gopls',
+        'lua_ls',
+        'nil_ls',
+        'pyright',
+        'terraformls',
+        'tsserver',
+    },
 })
 
-require'lspconfig'.marksman.setup{}
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-lsp.configure("lua_ls", {
-	settings = {
-		Lua = {
-			diagnostics = {
-				globals = { "vim" },
-			},
-			workspace = {
-				library = vim.api.nvim_get_runtime_file("", true),
-        checkThirdParty = false,
-			},
-		},
-	},
+mason_lspconfig.setup_handlers({
+    function(server)
+        lspconfig[server].setup({ capabilities = capabilities })
+    end,
+    gopls = function()
+        lspconfig.gopls.setup({
+            capabilities = capabilities,
+            settings = {
+                gopls = {
+                    gofumpt = true,
+                    analyses = {
+                        unusedparams = true,
+                        unreachable = true,
+                    },
+                    usePlaceholders = true,
+                    staticcheck = true,
+                },
+            },
+        })
+    end,
+    lua_ls = function()
+        lspconfig.lua_ls.setup({
+            capabilities = capabilities,
+            settings = {
+                Lua = {
+                    diagnostics = { globals = { 'vim' } },
+                    workspace = {
+                        library = vim.api.nvim_get_runtime_file('', true),
+                        checkThirdParty = false,
+                    },
+                },
+            },
+        })
+    end,
 })
 
+vim.diagnostic.config({
+    virtual_lines = true,
+    underline = true,
+    update_in_insert = false,
+    severity_sort = true,
+    float = { border = 'rounded', source = true },
+})
 
-local cmp = require("cmp")
-local cmp_action = require("lsp-zero").cmp_action()
+local cmp = require('cmp')
+local luasnip = require('luasnip')
 
 cmp.setup({
-	sources = {
-		{ name = "path" },
-		{ name = "nvim_lsp" },
-		{ name = "buffer", keyword_length = 3 },
-		{ name = "luasnip", keyword_length = 2 },
-	},
-	mapping = {
-		["<Tab>"] = cmp_action.tab_complete(),
-		["<S-Tab>"] = cmp_action.select_prev_or_fallback(),
-		["<CR>"] = cmp.mapping.confirm({ select = true }),
-	},
+    snippet = {
+        expand = function(args)
+            luasnip.lsp_expand(args.body)
+        end,
+    },
+    sources = {
+        { name = 'nvim_lsp' },
+        { name = 'path' },
+        { name = 'buffer', keyword_length = 3 },
+        { name = 'luasnip', keyword_length = 2 },
+    },
+    mapping = cmp.mapping.preset.insert({
+        ['<CR>'] = cmp.mapping.confirm({ select = true }),
+        ['<Tab>'] = cmp.mapping.select_next_item(),
+        ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+    }),
 })
-lsp.set_preferences({
-	set_lsp_keymaps = true,
-	manage_nvim_cmp = true,
-})
-lsp.on_attach(function(client, bufnr)
-	lsp.default_keymaps({ buffer = bufnr })
-end)
-lsp.setup()
