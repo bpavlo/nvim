@@ -48,28 +48,25 @@ require("lazy").setup({
   "tpope/vim-fugitive",
   "folke/which-key.nvim",
   -- "mickael-menu/zk-nvim",
-    {
-      "windwp/nvim-autopairs",
-      config = function()
-        require("nvim-autopairs").setup {}
-      end,
-    },
-    {
-      "VonHeikemen/lsp-zero.nvim",
-      branch = "v2.x",
-      dependencies = {
-        { "neovim/nvim-lspconfig" },
-
+  {
+    "windwp/nvim-autopairs",
+    config = function()
+      require("nvim-autopairs").setup {}
+    end,
+  },
+  {
+    "neovim/nvim-lspconfig",
+    dependencies = {
       {
         "williamboman/mason.nvim",
         build = function()
           pcall(vim.cmd, "MasonUpdate")
         end,
       },
-      { "williamboman/mason-lspconfig.nvim" },
-      { "hrsh7th/nvim-cmp" },
-      { "hrsh7th/cmp-nvim-lsp" },
-      { "L3MON4D3/LuaSnip" },
+      "williamboman/mason-lspconfig.nvim",
+      "hrsh7th/nvim-cmp",
+      "hrsh7th/cmp-nvim-lsp",
+      "L3MON4D3/LuaSnip",
     },
     config = function()
       require("module.plugins.lsp")
