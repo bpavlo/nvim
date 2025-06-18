@@ -24,12 +24,6 @@ require("lazy").setup({
       require("module.plugins.solarized-osaka")
     end,
   },
-  -- {
-  --   "jameswalls/naysayer.nvim",
-  --   config = function()
-  --     require("module.plugins.naysayer")
-  --   end,
-  -- },
   {
     "nvim-telescope/telescope.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
@@ -39,7 +33,6 @@ require("lazy").setup({
   },
   {
     "nvim-treesitter/nvim-treesitter",
-    build = ":TSUpdate",
     config = function()
       require("module.plugins.treesitter")
     end,
@@ -47,7 +40,6 @@ require("lazy").setup({
   "mbbill/undotree",
   "tpope/vim-fugitive",
   "folke/which-key.nvim",
-  -- "mickael-menu/zk-nvim",
   {
     "windwp/nvim-autopairs",
     config = function()
