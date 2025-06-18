@@ -1,4 +1,4 @@
-require("nvim-treesitter.configs").setup({
+require'nvim-treesitter.configs'.setup{
 	ensure_installed = {
 		"bash",
 		"c",
@@ -15,6 +15,8 @@ require("nvim-treesitter.configs").setup({
     "elixir",
 	},
 
+  ignore_install = {},
+
 	sync_install = false,
 
 	auto_install = true,
@@ -24,4 +26,4 @@ require("nvim-treesitter.configs").setup({
 
 		additional_vim_regex_highlighting = false,
 	},
-})
+}
