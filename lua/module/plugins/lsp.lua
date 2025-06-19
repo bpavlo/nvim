@@ -10,7 +10,6 @@ mason_lspconfig.setup({
 		"nil_ls",
 		"pyright",
 		"terraformls",
-		"typescript-language-server",
 	},
 })
 
