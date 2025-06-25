@@ -27,6 +27,13 @@ require("lazy").setup({
 			require("module.plugins.solarized-osaka")
 		end,
 	},
+--  {
+--    "maxmx03/solarized.nvim",
+--      config = function()
+--        require(
+--          "module.plugins.solarized")
+--        end,
+--  },
 	{
 		"nvim-telescope/telescope.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
