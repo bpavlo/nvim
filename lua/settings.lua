@@ -1,7 +1,7 @@
 vim.cmd([[autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o]])
 
-vim.opt.ignorecase = true -- ignore case in search patterns
-vim.opt.smartcase = true -- smart case
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
 
 vim.opt.termguicolors = true
 vim.opt.nu = true

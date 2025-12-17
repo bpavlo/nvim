@@ -1,1 +1,3 @@
-require("module")
+require("settings")
+require("plugins")
+require("mappings")

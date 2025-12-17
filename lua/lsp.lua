@@ -1,24 +1,9 @@
-local mason = require("mason")
-local mason_lspconfig = require("mason-lspconfig")
-
-mason.setup()
-mason_lspconfig.setup({
-	ensure_installed = {
-		"bashls",
-		"gopls",
-		"lua_ls",
-		"nil_ls",
-		"pyright",
-		"terraformls",
-	},
-})
-
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 -- Apply default capabilities to all servers
 vim.lsp.config("*", { capabilities = capabilities })
 
--- Individual server configurations
+-- Server-specific configurations
 vim.lsp.config("gopls", {
 	capabilities = capabilities,
 	settings = {
@@ -47,6 +32,16 @@ vim.lsp.config("lua_ls", {
 	},
 })
 
+-- Enable servers (must be in PATH via nix/homebrew)
+vim.lsp.enable({
+	"bashls",
+	"gopls",
+	"lua_ls",
+	"nil_ls",
+	"pyright",
+	"terraformls",
+})
+
 vim.diagnostic.config({
 	virtual_lines = true,
 	underline = true,
@@ -55,6 +50,7 @@ vim.diagnostic.config({
 	float = { border = "rounded", source = true },
 })
 
+-- Completion
 local cmp = require("cmp")
 local luasnip = require("luasnip")
 
