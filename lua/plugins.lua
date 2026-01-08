@@ -93,4 +93,31 @@ require("lazy").setup({
 			require("lsp")
 		end,
 	},
+	{
+		"yetone/avante.nvim",
+		event = "VeryLazy",
+		build = "make",
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+			"stevearc/dressing.nvim",
+			"nvim-lua/plenary.nvim",
+			"MunifTanjim/nui.nvim",
+			"nvim-tree/nvim-web-devicons",
+		},
+		opts = {
+			provider = "acp",
+			acp = {
+				provider = "claude-code",
+			},
+			acp_providers = {
+				["claude-code"] = {
+					command = "claude",
+				},
+				["gemini-cli"] = {
+					command = "gemini",
+					args = { "--experimental-acp" },
+				},
+			},
+		},
+	},
 })
