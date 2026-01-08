@@ -67,6 +67,17 @@ require("lazy").setup({
 			})
 		end,
 	},
+	{
+		"MeanderingProgrammer/render-markdown.nvim",
+		ft = { "markdown" },
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+			"nvim-tree/nvim-web-devicons",
+		},
+		config = function()
+			require("render-markdown").setup({})
+		end,
+	},
 	"mbbill/undotree",
 	"tpope/vim-fugitive",
 	"folke/which-key.nvim",
@@ -78,11 +89,6 @@ require("lazy").setup({
 	},
 	{
 		"neovim/nvim-lspconfig",
-		dependencies = {
-			"hrsh7th/nvim-cmp",
-			"hrsh7th/cmp-nvim-lsp",
-			"L3MON4D3/LuaSnip",
-		},
 		config = function()
 			require("lsp")
 		end,

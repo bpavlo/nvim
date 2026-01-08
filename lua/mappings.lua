@@ -4,6 +4,9 @@ vim.keymap.set("n", "<leader>n", ":Lexplore<CR>")
 vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
 vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
 
+-- Render Markdown
+vim.keymap.set("n", "<leader>m", ":RenderMarkdown toggle<CR>", { desc = "Toggle markdown render" })
+
 -- Telescope
 local builtin = require("telescope.builtin")
 vim.keymap.set("n", "<leader>ff", builtin.find_files, {})

@@ -1,11 +1,5 @@
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
--- Apply default capabilities to all servers
-vim.lsp.config("*", { capabilities = capabilities })
-
 -- Server-specific configurations
 vim.lsp.config("gopls", {
-	capabilities = capabilities,
 	settings = {
 		gopls = {
 			gofumpt = true,
@@ -20,7 +14,6 @@ vim.lsp.config("gopls", {
 })
 
 vim.lsp.config("lua_ls", {
-	capabilities = capabilities,
 	settings = {
 		Lua = {
 			diagnostics = { globals = { "vim" } },
@@ -32,7 +25,7 @@ vim.lsp.config("lua_ls", {
 	},
 })
 
--- Enable servers (must be in PATH via nix/homebrew)
+-- Enable servers (must be in PATH via nix)
 vim.lsp.enable({
 	"bashls",
 	"gopls",
@@ -50,25 +43,12 @@ vim.diagnostic.config({
 	float = { border = "rounded", source = true },
 })
 
--- Completion
-local cmp = require("cmp")
-local luasnip = require("luasnip")
-
-cmp.setup({
-	snippet = {
-		expand = function(args)
-			luasnip.lsp_expand(args.body)
-		end,
-	},
-	sources = {
-		{ name = "nvim_lsp" },
-		{ name = "path" },
-		{ name = "buffer", keyword_length = 3 },
-		{ name = "luasnip", keyword_length = 2 },
-	},
-	mapping = cmp.mapping.preset.insert({
-		["<CR>"] = cmp.mapping.confirm({ select = true }),
-		["<Tab>"] = cmp.mapping.select_next_item(),
-		["<S-Tab>"] = cmp.mapping.select_prev_item(),
-	}),
+-- Native completion (Neovim 0.11+)
+vim.api.nvim_create_autocmd("LspAttach", {
+	callback = function(args)
+		local client = vim.lsp.get_client_by_id(args.data.client_id)
+		if client:supports_method("textDocument/completion") then
+			vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
+		end
+	end,
 })
