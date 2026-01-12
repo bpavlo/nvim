@@ -18,7 +18,6 @@ lua/
 - telescope.nvim
 - nvim-lspconfig (native completion)
 - render-markdown.nvim
-- avante.nvim (AI via ACP)
 - undotree
 - vim-fugitive
 - which-key.nvim
@@ -51,13 +50,3 @@ Leader: `<Space>`
 | `<C-y>` | Accept |
 | `<C-e>` | Dismiss |
 
-### Avante (AI)
-
-| Key | Action |
-|-----|--------|
-| `<leader>aa` | Open chat / ask |
-| `<leader>ae` | Edit selection |
-| `<leader>ac` | Switch to Claude |
-| `<leader>ag` | Switch to Gemini |
-
-Sidebar: `q` close, `a` apply, `A` apply all, `r` retry, `@` add file
