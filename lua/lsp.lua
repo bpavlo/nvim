@@ -25,6 +25,21 @@ vim.lsp.config("lua_ls", {
 	},
 })
 
+vim.lsp.config("nil_ls", {
+	settings = {
+		["nil"] = {
+			formatting = {
+				command = { "nixfmt" },
+			},
+			nix = {
+				flake = {
+					autoArchive = true,
+				},
+			},
+		},
+	},
+})
+
 -- Enable servers (must be in PATH via nix)
 vim.lsp.enable({
 	"bashls",
@@ -33,6 +48,7 @@ vim.lsp.enable({
 	"nil_ls",
 	"pyright",
 	"terraformls",
+	"typst_lsp",
 })
 
 vim.diagnostic.config({
