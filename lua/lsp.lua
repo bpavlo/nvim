@@ -59,6 +59,16 @@ vim.diagnostic.config({
 	float = { border = "rounded", source = true },
 })
 
+-- Format on save
+vim.api.nvim_create_autocmd("BufWritePre", {
+	callback = function(args)
+		local clients = vim.lsp.get_clients({ bufnr = args.buf, method = "textDocument/formatting" })
+		if #clients > 0 then
+			vim.lsp.buf.format({ bufnr = args.buf, async = false })
+		end
+	end,
+})
+
 -- Native completion (Neovim 0.11+)
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)

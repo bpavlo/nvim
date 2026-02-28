@@ -31,8 +31,63 @@ require("lazy").setup({
 		end,
 	},
 	{
-		"nvim-telescope/telescope.nvim",
-		dependencies = { "nvim-lua/plenary.nvim" },
+		"folke/snacks.nvim",
+		priority = 1000,
+		lazy = false,
+		---@type snacks.Config
+		opts = {
+			picker = { enabled = true },
+			explorer = { enabled = true },
+			lazygit = { enabled = true },
+			gitbrowse = { enabled = true },
+			git = { enabled = true },
+			notifier = { enabled = true },
+			quickfile = { enabled = true },
+			input = { enabled = true },
+		},
+	},
+	{
+		"lewis6991/gitsigns.nvim",
+		config = function()
+			require("gitsigns").setup({
+				signs = {
+					add = { text = "+" },
+					change = { text = "~" },
+					delete = { text = "_" },
+					topdelete = { text = "‾" },
+					changedelete = { text = "~" },
+				},
+				current_line_blame = false,
+				on_attach = function(bufnr)
+					local gs = package.loaded.gitsigns
+					local function map(mode, lhs, rhs, opts)
+						opts = opts or {}
+						opts.buffer = bufnr
+						vim.keymap.set(mode, lhs, rhs, opts)
+					end
+					-- Hunk navigation
+					map("n", "]h", function()
+						if vim.wo.diff then return "]h" end
+						vim.schedule(function() gs.next_hunk() end)
+						return "<Ignore>"
+					end, { expr = true, desc = "Next hunk" })
+					map("n", "[h", function()
+						if vim.wo.diff then return "[h" end
+						vim.schedule(function() gs.prev_hunk() end)
+						return "<Ignore>"
+					end, { expr = true, desc = "Prev hunk" })
+					-- Hunk actions
+					map("n", "<leader>hs", gs.stage_hunk, { desc = "Stage hunk" })
+					map("n", "<leader>hu", gs.undo_stage_hunk, { desc = "Undo stage hunk" })
+					map("n", "<leader>hp", gs.preview_hunk, { desc = "Preview hunk" })
+					map("n", "<leader>hb", function() gs.blame_line({ full = true }) end, { desc = "Blame line" })
+					map("n", "<leader>hd", gs.diffthis, { desc = "Diff this" })
+				end,
+			})
+		end,
+	},
+	{
+		"sindrets/diffview.nvim",
 	},
 	{
 		"nvim-treesitter/nvim-treesitter",
@@ -81,7 +136,7 @@ require("lazy").setup({
 		end,
 	},
 	"mbbill/undotree",
-	"tpope/vim-fugitive",
+
 	"folke/which-key.nvim",
 	{
 		"windwp/nvim-autopairs",
