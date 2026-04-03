@@ -1,80 +1,80 @@
 -- Server-specific configurations
 vim.lsp.config("gopls", {
-	settings = {
-		gopls = {
-			gofumpt = true,
-			analyses = {
-				unusedparams = true,
-				unreachable = true,
-			},
-			usePlaceholders = true,
-			staticcheck = true,
-		},
-	},
+  settings = {
+    gopls = {
+      gofumpt = true,
+      analyses = {
+        unusedparams = true,
+        unreachable = true,
+      },
+      usePlaceholders = true,
+      staticcheck = true,
+    },
+  },
 })
 
 vim.lsp.config("lua_ls", {
-	settings = {
-		Lua = {
-			diagnostics = { globals = { "vim" } },
-			workspace = {
-				library = vim.api.nvim_get_runtime_file("", true),
-				checkThirdParty = false,
-			},
-		},
-	},
+  settings = {
+    Lua = {
+      diagnostics = { globals = { "vim" } },
+      workspace = {
+        library = vim.api.nvim_get_runtime_file("", true),
+        checkThirdParty = false,
+      },
+    },
+  },
 })
 
 vim.lsp.config("nil_ls", {
-	settings = {
-		["nil"] = {
-			formatting = {
-				command = { "nixfmt" },
-			},
-			nix = {
-				flake = {
-					autoArchive = true,
-				},
-			},
-		},
-	},
+  settings = {
+    ["nil"] = {
+      formatting = {
+        command = { "nixfmt" },
+      },
+      nix = {
+        flake = {
+          autoArchive = true,
+        },
+      },
+    },
+  },
 })
 
 -- Enable servers (must be in PATH via nix)
 vim.lsp.enable({
-	"bashls",
-	"gopls",
-	"lua_ls",
-	"nil_ls",
-	"pyright",
-	"terraformls",
-	"typst_lsp",
+  "bashls",
+  "gopls",
+  "lua_ls",
+  "nil_ls",
+  "pyright",
+  "terraformls",
+  "typst_lsp",
 })
 
 vim.diagnostic.config({
-	virtual_lines = true,
-	underline = true,
-	update_in_insert = false,
-	severity_sort = true,
-	float = { border = "rounded", source = true },
+  virtual_lines = true,
+  underline = true,
+  update_in_insert = false,
+  severity_sort = true,
+  float = { border = "rounded", source = true },
 })
 
 -- Format on save
 vim.api.nvim_create_autocmd("BufWritePre", {
-	callback = function(args)
-		local clients = vim.lsp.get_clients({ bufnr = args.buf, method = "textDocument/formatting" })
-		if #clients > 0 then
-			vim.lsp.buf.format({ bufnr = args.buf, async = false })
-		end
-	end,
+  callback = function(args)
+    local clients = vim.lsp.get_clients({ bufnr = args.buf, method = "textDocument/formatting" })
+    if #clients > 0 then
+      vim.lsp.buf.format({ bufnr = args.buf, async = false })
+    end
+  end,
 })
 
 -- Native completion (Neovim 0.11+)
 vim.api.nvim_create_autocmd("LspAttach", {
-	callback = function(args)
-		local client = vim.lsp.get_client_by_id(args.data.client_id)
-		if client:supports_method("textDocument/completion") then
-			vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
-		end
-	end,
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if client:supports_method("textDocument/completion") then
+      vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = false })
+    end
+  end,
 })

@@ -34,9 +34,43 @@ vim.keymap.set("n", "gr", function() Snacks.picker.lsp_references() end, { nowai
 vim.keymap.set("n", "gI", function() Snacks.picker.lsp_implementations() end, { desc = "Go to implementation" })
 vim.keymap.set("n", "gy", function() Snacks.picker.lsp_type_definitions() end, { desc = "Go to type definition" })
 vim.keymap.set("n", "<leader>ss", function() Snacks.picker.lsp_symbols() end, { desc = "LSP symbols (file)" })
-vim.keymap.set("n", "<leader>sS", function() Snacks.picker.lsp_workspace_symbols() end, { desc = "LSP symbols (workspace)" })
+vim.keymap.set("n", "<leader>sS", function() Snacks.picker.lsp_workspace_symbols() end,
+  { desc = "LSP symbols (workspace)" })
 vim.keymap.set("n", "<leader>sd", function() Snacks.picker.diagnostics() end, { desc = "Diagnostics" })
 vim.keymap.set("n", "<leader>sD", function() Snacks.picker.diagnostics_buffer() end, { desc = "Diagnostics (buffer)" })
 
 -- LSP actions (native, no picker needed)
 vim.keymap.set("n", "<leader>lf", function() vim.lsp.buf.format({ async = true }) end, { desc = "Format buffer" })
+
+-- LSP completion (manual trigger)
+vim.keymap.set("i", "<C-Space>", "<C-x><C-o>", { desc = "LSP completion", noremap = true })
+
+-- Opencode
+
+vim.keymap.set("n", "<leader>oa", function()
+  require("opencode").ask("@this: ", { submit = true })
+end, { desc = "Ask opencode" })
+
+vim.keymap.set("n", "<leader>os", function()
+  require("opencode").select()
+end, { desc = "Select what?" })
+
+vim.keymap.set("n", "<leader>ot", function()
+  require("opencode").toggle()
+end, { desc = "Toggle Opencode?" })
+
+vim.keymap.set("n", "<leader>on", function()
+  require("opencode").command("session.new")
+end, { desc = "New  Session" })
+
+vim.keymap.set("n", "<leader>oi", function()
+  require("opencode").command("sessions.interrupt")
+end, { desc = "Interrupt" })
+
+vim.keymap.set("n", "<leader>ou", function()
+  require("opencode").command("session.new")
+end, { desc = "UP" })
+
+vim.keymap.set("n", "<leader>od", function()
+  require("opencode").command("session.half.page.down")
+end, { desc = "DOWN" })
