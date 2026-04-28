@@ -21,8 +21,8 @@ vim.opt.clipboard:append("unnamedplus")
 vim.opt.completeopt = { "menu", "menuone", "noselect", "noinsert" }
 
 vim.opt.guicursor = {
-  "n-v:block",
-  "i-c-ci-ve:ver25",
-  "r-cr:hor20",
-  "o:hor25",
+	"n-v:block",
+	"i-c-ci-ve:ver25",
+	"r-cr:hor20",
+	"o:hor25",
 }
