@@ -38,13 +38,17 @@ require("lazy").setup({
 		opts = {
 			picker = { enabled = true },
 			explorer = { enabled = true },
-			lazygit = { enabled = true },
 			gitbrowse = { enabled = true },
 			git = { enabled = true },
 			notifier = { enabled = true },
 			quickfile = { enabled = true },
 			input = { enabled = true },
 		},
+	},
+	{
+		"NeogitOrg/neogit",
+		dependencies = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim" },
+		config = true,
 	},
 	{
 		"lewis6991/gitsigns.nvim",
