@@ -2,7 +2,6 @@ vim.g.mapleader = " "
 
 -- Misc
 vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle, { desc = "Toggle undotree" })
-vim.keymap.set("n", "<leader>m", ":RenderMarkdown toggle<CR>", { desc = "Toggle markdown render" })
 
 -- File explorer
 vim.keymap.set("n", "<leader>e", function()
